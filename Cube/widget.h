@@ -7,6 +7,8 @@
 #include <QTimer>
 #include <QPainter>
 #include <QPointF>
+#include <QDir>
+#include <QDateTime>
 
 namespace Ui {
 class Widget;
@@ -20,18 +22,16 @@ public:
     explicit Widget(QWidget *parent = 0);
 
     static const int SerialResetTime =      3;      //sec
-    static const int timer_T =              1500;   //ms
+    static const int timer_T =              2250;   //ms
 
     const double Draw_range =        200;    //pixel
     const double Draw_base =         20;     //pixel
     const double ADC14bits =         16384;
     const double ADCVRef =           4.096*3;
-    const double Volt_min =          2;
-    const double Volt_max =          6;
-    const double ADC_min =           Volt_min * ADC14bits / ADCVRef;
-    const double ADC_max =           Volt_max * ADC14bits / ADCVRef;
-    ~Widget();
+    const int datadelayset =         3;         //pixel
+    static const int logfilemax =    1000;
 
+    ~Widget();
 private slots:
     void initial();
 
@@ -53,9 +53,20 @@ private slots:
 
     bool eventFilter(QObject *obj, QEvent *event);
 
-    void PDdrawnewpoint(int x, int y1, int y2, int DN);
+    void PDdrawnewpoint(int DN);
 
     void on_pushButton_clicked();
+
+    QString FileName_Setting(QString FileName);
+
+    QString logfile_setting(QString Path, QString FileName);
+
+    void logfile_max();
+
+    void PDfile_write(QString file, QByteArray time,
+                              QByteArray ch1, QByteArray ch2);
+
+    void PDfile_write_title(QString file);
 
 private:
     Ui::Widget *ui;
@@ -64,10 +75,21 @@ private:
 
     int RXD_counter;
     unsigned int rawdata[16];
-    QPointF points_1[400], points_2[400], points_3[400], points_4[400],
-            points_5[400], points_6[400], points_7[400], points_8[400];
+    unsigned int points[8][400];//points_1[400], points_2[400], points_3[400], points_4[400],
+                 //points_5[400], points_6[400], points_7[400], points_8[400];
     int pointnum[4];
     bool button[4];
+
+    double ADC_min[4];
+    double ADC_max[4];
+    double SIG_Diff[4];
+    int datadelay[4] = {datadelayset, datadelayset, datadelayset, datadelayset};
+    bool SIGmax[4] = {false, false, false, false};
+
+    QString logdirname, logPath, locationdir;
+    QDir logdir;
+    QString PDfile[4];
+    int log_sec_time, filepart;
 };
 
 #endif // WIDGET_H

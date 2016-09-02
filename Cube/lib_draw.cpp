@@ -5,6 +5,8 @@ bool Widget::eventFilter(QObject *obj, QEvent *event)
 {
     if(event->type() == QEvent::Paint)
     {
+        QPointF pA[400], pB[400];
+        unsigned int Hight = 240;
         if(obj == ui->widget_D1)
         {
             QPainter painter(ui->widget_D1);
@@ -12,12 +14,17 @@ bool Widget::eventFilter(QObject *obj, QEvent *event)
             painter.setPen(Qt::black);
             painter.drawRect(0,0,400,240);
 
+            for(int i =0;i<400;i++)
+            {
+                pA[i] = QPointF(i, Hight - ((points[0][i] - ADC_min[0]) * Draw_range / ADC_max[0] + Draw_base));
+                pB[i] = QPointF(i, Hight - ((points[1][i] - ADC_min[0]) * Draw_range / ADC_max[0] + Draw_base));
+            }
 
             painter.setPen(Qt::red);
-            painter.drawPolyline(points_1, pointnum[0]);
+            painter.drawPolyline(pA, pointnum[0]);
 
             painter.setPen(Qt::blue);
-            painter.drawPolyline(points_2, pointnum[0]);
+            painter.drawPolyline(pB, pointnum[0]);
         }
         else if(obj == ui->widget_D2)
         {
@@ -26,12 +33,17 @@ bool Widget::eventFilter(QObject *obj, QEvent *event)
             painter.setPen(Qt::black);
             painter.drawRect(0,0,400,240);
 
+            for(int i =0;i<400;i++)
+            {
+                pA[i] = QPointF(i, Hight - ((points[2][i] - ADC_min[1]) * Draw_range / ADC_max[1] + Draw_base));
+                pB[i] = QPointF(i, Hight - ((points[3][i] - ADC_min[1]) * Draw_range / ADC_max[1] + Draw_base));
+            }
 
             painter.setPen(Qt::red);
-            painter.drawPolyline(points_3, pointnum[1]);
+            painter.drawPolyline(pA, pointnum[1]);
 
             painter.setPen(Qt::blue);
-            painter.drawPolyline(points_4, pointnum[1]);
+            painter.drawPolyline(pA, pointnum[1]);
         }
         else if(obj == ui->widget_D3)
         {
@@ -40,12 +52,17 @@ bool Widget::eventFilter(QObject *obj, QEvent *event)
             painter.setPen(Qt::black);
             painter.drawRect(0,0,400,240);
 
+            for(int i =0;i<400;i++)
+            {
+                pA[i] = QPointF(i, Hight - ((points[4][i] - ADC_min[2]) * Draw_range / ADC_max[2] + Draw_base));
+                pB[i] = QPointF(i, Hight - ((points[5][i] - ADC_min[2]) * Draw_range / ADC_max[2] + Draw_base));
+            }
 
             painter.setPen(Qt::red);
-            painter.drawPolyline(points_5, pointnum[2]);
+            painter.drawPolyline(pA, pointnum[2]);
 
             painter.setPen(Qt::blue);
-            painter.drawPolyline(points_6, pointnum[2]);
+            painter.drawPolyline(pB, pointnum[2]);
         }
         else if(obj == ui->widget_D4)
         {
@@ -54,40 +71,36 @@ bool Widget::eventFilter(QObject *obj, QEvent *event)
             painter.setPen(Qt::black);
             painter.drawRect(0,0,400,240);
 
+            for(int i =0;i<400;i++)
+            {
+                pA[i] = QPointF(i, Hight - ((points[6][i] - ADC_min[3]) * Draw_range / ADC_max[3] + Draw_base));
+                pB[i] = QPointF(i, Hight - ((points[7][i] - ADC_min[3]) * Draw_range / ADC_max[3] + Draw_base));
+            }
 
             painter.setPen(Qt::red);
-            painter.drawPolyline(points_7, pointnum[3]);
+            painter.drawPolyline(pA, pointnum[3]);
 
             painter.setPen(Qt::blue);
-            painter.drawPolyline(points_8, pointnum[3]);
+            painter.drawPolyline(pB, pointnum[3]);
         }
     }
     return QWidget::eventFilter(obj, event);
 }
 
-void Widget::PDdrawnewpoint(int x, int y1, int y2, int DN)
+void Widget::PDdrawnewpoint(int DN)
 {
-    int Height = 240;
     switch(DN)
     {
         case 0:
-            points_1[x] = QPointF(x, Height - y1);
-            points_2[x] = QPointF(x, Height - y2);
             ui->widget_D1->update();
             break;
         case 1:
-            points_3[x] = QPointF(x, Height - y1);
-            points_4[x] = QPointF(x, Height - y2);
             ui->widget_D2->update();
             break;
         case 2:
-            points_5[x] = QPointF(x, Height - y1);
-            points_6[x] = QPointF(x, Height - y2);
             ui->widget_D3->update();
             break;
         case 3:
-            points_7[x] = QPointF(x, Height - y1);
-            points_8[x] = QPointF(x, Height - y2);
             ui->widget_D4->update();
             break;
     }

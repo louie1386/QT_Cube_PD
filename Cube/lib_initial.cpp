@@ -10,6 +10,13 @@ void Widget::initial()
         button[i] = false;
     }
 
+    locationdir = QDir::currentPath();
+    logPath = QDir::rootPath();
+    logPath += "media/pi/";
+    logdirname = "log";
+    log_sec_time = 0;
+    filepart = 2;
+
     serialport_initial();
     timer_initial();
     ui_initial();

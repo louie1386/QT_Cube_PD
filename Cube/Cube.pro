@@ -18,7 +18,8 @@ SOURCES += main.cpp\
     lib_initial.cpp \
     lib_serial.cpp \
     lib_timer.cpp \
-    lib_draw.cpp
+    lib_draw.cpp \
+    lib_logfile.cpp
 
 HEADERS  += widget.h
 
