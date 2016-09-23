@@ -63,6 +63,9 @@ void Widget::read_Com()
                         points[j*2][pointnum[j]]     = (drawpoint[j*2]);
                         points[j*2+1][pointnum[j]]   = (drawpoint[j*2+1]);
                         PDdrawnewpoint(j);
+                        labelnum[j][0] = ADC_min[j];
+                        labelnum[j][1] = (ADC_max[j] - ADC_min[j]) / 2 + ADC_min[j];
+                        labelnum[j][2] = ADC_max[j];
                     }
                     button[j] = true;
 

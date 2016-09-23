@@ -51,6 +51,8 @@ private slots:
 
     void Get_Volt();
 
+    void LabelnumChange();
+
     bool eventFilter(QObject *obj, QEvent *event);
 
     void PDdrawnewpoint(int DN);
@@ -75,8 +77,7 @@ private:
 
     int RXD_counter;
     unsigned int rawdata[16];
-    unsigned int points[8][400];//points_1[400], points_2[400], points_3[400], points_4[400],
-                 //points_5[400], points_6[400], points_7[400], points_8[400];
+    unsigned int points[8][400];
     int pointnum[4];
     bool button[4];
 
@@ -90,6 +91,8 @@ private:
     QDir logdir;
     QString PDfile[4];
     int log_sec_time, filepart;
+
+    unsigned int labelnum[4][3];
 };
 
 #endif // WIDGET_H
